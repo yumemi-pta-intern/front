@@ -51,6 +51,8 @@ var ProfilePart = function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, axios_1["default"].get("user/" + id).then(function (res) {
                         setProfile(res.data.data);
+                        // if (res.data.data?.messages != undefined)
+                        // setMessages(res.data.data);
                         console.log(res.data.data);
                     })];
                 case 1:

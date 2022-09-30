@@ -19,6 +19,8 @@ const ProfilePart: NextPage<Props> = ({ id }) => {
   const getProfile = async () => {
     await axios.get(`user/${id}`).then((res) => {
       setProfile(res.data.data);
+      // if (res.data.data?.messages != undefined)
+      // setMessages(res.data.data);
       console.log(res.data.data);
     });
   };
@@ -92,11 +94,11 @@ const ProfilePart: NextPage<Props> = ({ id }) => {
             <div style={{ wordBreak: "break-all" }}>{message.message}</div>
             <div style={{ position: "absolute", bottom: 10, right: 20 }}>
               {message.like_status ? (
-                <IconButton onClick={() => deleteLike(message.uuid!)}>
+                <IconButton onClick={() => deleteLike(message.uuid)}>
                   <FavoriteIcon></FavoriteIcon>
                 </IconButton>
               ) : (
-                <IconButton onClick={() => like(message.uuid!)}>
+                <IconButton onClick={() => like(message.uuid)}>
                   <FavoriteBorderIcon></FavoriteBorderIcon>
                 </IconButton>
               )}
