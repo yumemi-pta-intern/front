@@ -11,17 +11,38 @@ const TimelinePart: NextPage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const like = async (id: string) => {
-    await axios.post(`message/${id}/like`).then((res) => {});
+    await axios.post(`message/${id}/like`).then((res) => {
+      setMessages((prev) => {
+        return prev.map((el) =>
+          el.uuid == id
+            ? Object.assign(el, {
+                like_conunt: el.like_count++,
+                like_status: true,
+              })
+            : el
+        );
+      });
+    });
   };
 
   const deleteLike = async (id: string) => {
-    await axios.delete(`message/${id}/like`).then((res) => {});
+    await axios.delete(`message/${id}/like`).then((res) => {
+      setMessages((prev) => {
+        return prev.map((el) =>
+          el.uuid == id
+            ? Object.assign(el, {
+                like_conunt: el.like_count--,
+                like_status: false,
+              })
+            : el
+        );
+      });
+    });
   };
 
   useEffect(() => {
     axios.get("timeline", { withCredentials: true }).then((res) => {
       setMessages(res.data.data);
-      console.log(res.data.data);
     });
   }, []);
 
@@ -34,7 +55,7 @@ const TimelinePart: NextPage = () => {
         borderRight: "1px solid #ccc",
       }}
     >
-      {messages.map((message: Message) => (
+      {messages.map((message: Message, index) => (
         <div
           key={message.uuid}
           style={{

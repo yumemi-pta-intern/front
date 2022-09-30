@@ -11,10 +11,8 @@ import MessageCreate from "./MessageCreate";
 const Menu: NextPage = () => {
   let userId = "";
 
-  const getUserId = useCallback(async () => {
-    await axios.get("/user/me").then((res) => {
-      userId = res.data.data.uuid;
-    });
+  const getUserId = useCallback(() => {
+    userId = localStorage.getItem("id")!;
   }, [userId]);
 
   useEffect(() => {
@@ -32,7 +30,7 @@ const Menu: NextPage = () => {
             <ListItemText>ホーム</ListItemText>
           </MenuItem>
         </Link>
-        <Link href={`${userId != "" ? "/profile/" + userId : "/"}`}>
+        <Link href={`${userId != "" ? "/profile/" + userId : "/profile"}`}>
           <MenuItem>
             <ListItemIcon>
               <PersonIcon></PersonIcon>

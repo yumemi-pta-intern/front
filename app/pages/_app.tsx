@@ -15,10 +15,20 @@ function MyApp({ Component, pageProps }: AppProps) {
   };
 
   const cookieCheck = async () => {
-    await axios.get("user/me").then((res) => {
-      if (res.data.data.uuid != null) setIsLoginOpen(false);
-      else setIsLoginOpen(true);
-    });
+    await axios
+      .get("user/me")
+      .then((res) => {
+        console.log(res.data.status);
+        if (res.data.status == "OK.") {
+          localStorage.setItem("id", res.data.data.uuid);
+          setIsLoginOpen(false);
+        } else {
+          setIsLoginOpen(true);
+        }
+      })
+      .catch(() => {
+        setIsLoginOpen(true);
+      });
   };
 
   useEffect(() => {

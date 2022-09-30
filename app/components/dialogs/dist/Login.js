@@ -64,9 +64,10 @@ var Login = function (_a) {
                             password: (_c = passwordRef.current) === null || _c === void 0 ? void 0 : _c.value
                         }, { withCredentials: true })
                             .then(function (res) {
-                            if (res.data.status == "OK") {
+                            if (res.data.status == "OK.") {
                                 cookieCheck();
                             }
+                            handleClose();
                         })];
                 case 1:
                     _d.sent();

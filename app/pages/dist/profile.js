@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -47,35 +36,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-require("../styles/globals.css");
-var react_1 = require("react");
 var axios_1 = require("axios");
-var Login_1 = require("../components/dialogs/Login");
-function MyApp(_a) {
-    var _this = this;
-    var Component = _a.Component, pageProps = _a.pageProps;
-    var _b = react_1.useState(false), isLoginOpen = _b[0], setIsLoginOpen = _b[1];
-    axios_1["default"].defaults.withCredentials = true;
-    axios_1["default"].defaults.baseURL = "http://localhost:80/api/";
-    var handleClose = function () {
-        setIsLoginOpen(false);
-    };
-    var cookieCheck = function () { return __awaiter(_this, void 0, void 0, function () {
+var router_1 = require("next/router");
+var react_1 = require("react");
+var ProfileRedirect = function () {
+    var redirect = function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"]
-                        .get("user/me")
-                        .then(function (res) {
-                        console.log(res.data.status);
-                        if (res.data.status == "OK.") {
-                            localStorage.setItem("id", res.data.data.uuid);
-                            setIsLoginOpen(false);
-                        }
-                        else {
-                            setIsLoginOpen(true);
-                        }
-                    })["catch"](function () {
-                        setIsLoginOpen(true);
+                case 0: return [4 /*yield*/, axios_1["default"].get("user/me").then(function (res) {
+                        router_1["default"].push("/profile/" + res.data.data.uuid);
                     })];
                 case 1:
                     _a.sent();
@@ -84,10 +53,8 @@ function MyApp(_a) {
         });
     }); };
     react_1.useEffect(function () {
-        cookieCheck();
+        redirect();
     }, []);
-    return (React.createElement(React.Fragment, null,
-        React.createElement(Component, __assign({}, pageProps)),
-        React.createElement(Login_1["default"], { open: isLoginOpen, handleClose: handleClose, cookieCheck: cookieCheck })));
-}
-exports["default"] = MyApp;
+    return React.createElement("div", null);
+};
+exports["default"] = ProfileRedirect;

@@ -44,9 +44,10 @@ const Login: NextPage<Props> = ({ open, handleClose, cookieCheck }) => {
         { withCredentials: true }
       )
       .then((res) => {
-        if (res.data.status == "OK") {
+        if (res.data.status == "OK.") {
           cookieCheck();
         }
+        handleClose();
       });
   };
 

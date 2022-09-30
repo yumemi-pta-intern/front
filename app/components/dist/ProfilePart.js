@@ -36,20 +36,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+var material_1 = require("@mui/material");
 var axios_1 = require("axios");
 var link_1 = require("next/link");
 var react_1 = require("react");
 var FavoriteBorder_1 = require("@mui/icons-material/FavoriteBorder");
 var Favorite_1 = require("@mui/icons-material/Favorite");
-var material_1 = require("@mui/material");
-var TimelinePart = function () {
-    var _a = react_1.useState([]), messages = _a[0], setMessages = _a[1];
+var ProfilePart = function (_a) {
+    var id = _a.id;
+    var _b = react_1.useState(), profile = _b[0], setProfile = _b[1];
+    var _c = react_1.useState([]), messages = _c[0], setMessages = _c[1];
+    var getProfile = function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, axios_1["default"].get("user/" + id).then(function (res) {
+                        setProfile(res.data.data);
+                        console.log(res.data.data);
+                    })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); };
     var like = function (id) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, axios_1["default"].post("message/" + id + "/like").then(function (res) {
                         setMessages(function (prev) {
-                            return prev.map(function (el) {
+                            return prev === null || prev === void 0 ? void 0 : prev.map(function (el) {
                                 return el.uuid == id
                                     ? Object.assign(el, {
                                         like_conunt: el.like_count++,
@@ -87,29 +102,33 @@ var TimelinePart = function () {
         });
     }); };
     react_1.useEffect(function () {
-        axios_1["default"].get("timeline", { withCredentials: true }).then(function (res) {
-            setMessages(res.data.data);
-        });
-    }, []);
+        if (id != null && profile == null) {
+            getProfile();
+        }
+    }, [getProfile, id, profile]);
     return (React.createElement("div", { style: {
             width: "100%",
             minHeight: "100vh",
             borderLeft: "1px solid #ccc",
             borderRight: "1px solid #ccc"
-        } }, messages.map(function (message, index) { return (React.createElement("div", { key: message.uuid, style: {
-            margin: 20,
-            padding: "0 0 60px 0",
-            minHeight: "10%",
-            borderBottom: "1px #ccc solid",
-            position: "relative"
         } },
-        React.createElement(link_1["default"], { href: "profile/" + message.user_uuid },
-            React.createElement("div", { style: { padding: 10 } }, message.name)),
-        React.createElement("div", { style: { wordBreak: "break-all" } }, message.message),
-        React.createElement("div", { style: { position: "absolute", bottom: 10, right: 20 } },
-            message.like_status ? (React.createElement(material_1.IconButton, { onClick: function () { return deleteLike(message.uuid); } },
-                React.createElement(Favorite_1["default"], null))) : (React.createElement(material_1.IconButton, { onClick: function () { return like(message.uuid); } },
-                React.createElement(FavoriteBorder_1["default"], null))),
-            message.like_count))); })));
+        React.createElement("div", { style: { margin: 20, borderBottom: "1px solid #ccc", minHeight: "25%" } },
+            React.createElement("div", null, profile === null || profile === void 0 ? void 0 : profile.name),
+            React.createElement("div", null, profile === null || profile === void 0 ? void 0 : profile.prifile_message)),
+        React.createElement("div", null, profile === null || profile === void 0 ? void 0 : profile.messages.map(function (message) { return (React.createElement("div", { key: message.uuid, style: {
+                margin: 20,
+                padding: "0 0 60px 0",
+                minHeight: "10%",
+                borderBottom: "1px #ccc solid",
+                position: "relative"
+            } },
+            React.createElement(link_1["default"], { href: "/profile/" + message.user_uuid },
+                React.createElement("div", { style: { padding: 10 } }, profile.name)),
+            React.createElement("div", { style: { wordBreak: "break-all" } }, message.message),
+            React.createElement("div", { style: { position: "absolute", bottom: 10, right: 20 } },
+                message.like_status ? (React.createElement(material_1.IconButton, { onClick: function () { return deleteLike(message.uuid); } },
+                    React.createElement(Favorite_1["default"], null))) : (React.createElement(material_1.IconButton, { onClick: function () { return like(message.uuid); } },
+                    React.createElement(FavoriteBorder_1["default"], null))),
+                message.like_count))); }))));
 };
-exports["default"] = TimelinePart;
+exports["default"] = ProfilePart;

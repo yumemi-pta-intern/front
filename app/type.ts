@@ -7,3 +7,10 @@ export type Message = {
   created_at: Date;
   like_status: boolean;
 };
+
+export type Profile = {
+  name: string;
+  uuid: string;
+  prifile_message: string | null;
+  messages: Message[];
+};
